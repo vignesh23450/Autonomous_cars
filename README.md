@@ -1,141 +1,113 @@
+Here’s a draft of a **README** for your GitHub repository:
 
+---
 
-# Autonomous Car Project
+# **Autonomous Vehicle with Monocular Camera and Deep Learning**
 
+This project implements a low-cost autonomous vehicle system using a monocular camera and deep learning techniques. The system is designed for real-time lane detection, object detection, and distance estimation using the Raspberry Pi 4B and Pi Camera. The primary goal is to provide an affordable alternative to expensive sensor-based autonomous systems, making it more accessible to a wider audience.
 
-## Project Overview
-This project aims to develop an autonomous car capable of navigating through various environments using computer vision, sensor fusion, and machine learning techniques. The car can detect and avoid obstacles, follow lanes, recognize traffic signs, and make driving decisions in real-time.
+## **Table of Contents**
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Hardware Requirements](#hardware-requirements)
+- [Software Requirements](#software-requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Test Results](#test-results)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Features
-- **Lane Detection**: Identify and follow road lanes using computer vision techniques.
-- **Object Detection**: Detect obstacles, pedestrians, and other vehicles.
-- **Traffic Sign Recognition**: Recognize and respond to traffic signs.
-- **Path Planning**: Plan and follow the safest route based on sensor data.
-- **Sensor Fusion**: Combine data from multiple sensors (e.g., cameras, LiDAR, radar) for accurate perception.
+## **Project Overview**
 
-## Technologies Used
-- **Programming Languages**: Python, C++
-- **Frameworks**: TensorFlow, OpenCV, ROS (Robot Operating System)
-- **Simulation**: CARLA, Gazebo
-- **Machine Learning**: Convolutional Neural Networks (CNNs), Support Vector Machines (SVMs)
-- **Sensor Technologies**: LiDAR, Radar, GPS, IMU (Inertial Measurement Unit)
-- **Other Tools**: Docker, Git
+The goal of this project is to develop a monocular camera-based autonomous vehicle system capable of:
+1. Detecting lane boundaries in real-time.
+2. Identifying and classifying obstacles in the vehicle's path.
+3. Estimating distances to detected objects for dynamic navigation adjustments.
+4. Controlling the vehicle’s motor based on lane detection and object proximity.
 
-## Installation
+The project uses OpenCV for image processing and TensorFlow for object detection, integrated with Raspberry Pi’s GPIO for motor control.
 
-### Prerequisites
-- Python 3.8+
-- Docker
-- ROS Noetic
-- CARLA Simulator
-- CUDA (for GPU support)
+## **Features**
+- **Lane Detection**: Detects lane lines using computer vision algorithms (Canny edge detection, Hough transform).
+- **Object Detection**: Real-time object detection and classification using a pre-trained deep learning model (COCO dataset).
+- **Distance Estimation**: Estimates the distance between the vehicle and detected objects.
+- **Motor Control**: Adjusts vehicle speed and direction based on lane deviation and object proximity.
 
-### Steps
+## **Hardware Requirements**
+- **Raspberry Pi 4B** (or equivalent)
+- **Pi Camera Module V2** (8MP)
+- **L298N Motor Driver** with DC Motors
+- **5V/3A Power Supply** (for Raspberry Pi)
+- **12V Power Supply** (for motors)
+- **SG90 Servo Motors** (for steering control)
+- **HDMI Display** (for monitoring)
+
+## **Software Requirements**
+- **Operating System**: Raspbian OS
+- **Programming Language**: Python 3.7+
+- **Libraries**: 
+  - OpenCV
+  - TensorFlow
+  - NumPy
+  - RPi.GPIO
+  - Picamera
+
+## **Installation**
+
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/autonomous-car.git
-   cd autonomous-car
+   git clone https://github.com/yourusername/autonomous-vehicle-monocular-camera.git
+   cd autonomous-vehicle-monocular-camera
    ```
 
-2. **Set up a virtual environment**:
+
+   
+
+2. **Set up Raspberry Pi Camera**:
+   Ensure that the Pi Camera is enabled:
    ```bash
-   python -m venv venv
-   source venv/bin/activate
+   sudo raspi-config
    ```
+   Navigate to **Interface Options** and enable the camera.
 
-3. **Install dependencies**:
+3. **Run the system**:
+   Start the lane detection and object detection system:
    ```bash
-   pip install -r requirements.txt
+   python main.py
    ```
 
-4. **Install ROS dependencies**:
-   ```bash
-   sudo apt-get update
-   rosdep install --from-paths src --ignore-src -r -y
-   ```
+## **Usage**
 
-5. **Run Docker container** (if applicable):
-   ```bash
-   docker-compose up
-   ```
+- **Lane Detection**: The system will display real-time video with detected lane lines highlighted in green. It will also show lane deviation in the vehicle's trajectory.
+- **Object Detection**: Detected objects will be highlighted with bounding boxes and classified with labels (e.g., pedestrians, vehicles).
+- **Motor Control**: The vehicle will adjust its speed and direction based on the proximity of objects and lane deviation.
 
-## Usage
+To stop the system, press `Ctrl + C`.
 
-### Running the Simulation
-1. Launch the CARLA simulator.
-2. Run the ROS nodes:
-   ```bash
-   roslaunch autonomous_car simulation.launch
-   ```
-3. Start the autonomous driving:
-   ```bash
-   python scripts/autonomous_drive.py
-   ```
+## **Test Results**
 
-### Real-World Deployment
-1. Connect the sensors and hardware.
-2. Start the ROS nodes for data collection and processing.
-3. Initiate the autonomous driving system.
+During testing, the following key metrics were observed:
+- **Lane Detection Accuracy**: 90% in normal lighting conditions.
+- **Object Detection Accuracy**: 90% with real-time performance.
+- **Distance Estimation Accuracy**: ±3 cm for objects 30-50 cm away.
 
-## Project Structure
-```
-autonomous-car/
-│
-├── data/                # Dataset for training and testing
-├── docs/                # Documentation files
-├── models/              # Pretrained and custom models
-├── scripts/             # Python scripts for data processing and model training
-├── src/                 # Source code for ROS nodes
-├── tests/               # Test cases
-├── Dockerfile           # Dockerfile for containerized setup
-├── requirements.txt     # Python dependencies
-├── setup.py             # Setup script for the package
-└── README.md            # This README file
-```
+For detailed test results, please refer to the [Test Results](test_results.md) document.
 
-## Data
-The project uses datasets from various sources, including:
-- **KITTI Dataset**: For object detection and depth estimation.
-- **COCO Dataset**: For traffic sign and pedestrian detection.
-- **Custom Datasets**: Collected using the car's sensors in real-world environments.
+## **Contributing**
 
-## Model Training
-The models are trained using a combination of supervised learning techniques, with data augmentation applied to enhance performance in diverse conditions. For example, the lane detection model uses a convolutional neural network trained on annotated road images.
+Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
 
-### Training Procedure
-1. Prepare the dataset and split it into training, validation, and test sets.
-2. Train the models using `train_model.py`:
-   ```bash
-   python scripts/train_model.py --config configs/lane_detection.yaml
-   ```
+### **To Contribute**:
+1. Fork the project.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -m 'Add your message'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
-3. Evaluate the models:
-   ```bash
-   python scripts/evaluate_model.py --model models/lane_detection.pth
-   ```
+## **License**
 
-## Simulation
-The CARLA simulator is used to validate the car's performance in various driving scenarios. The simulation environment replicates urban and rural road conditions, providing a safe and controlled setting for testing.
-
-### Running Simulations
-- **Basic Driving**: Test the car's ability to follow lanes and avoid obstacles.
-- **Complex Scenarios**: Simulate challenging situations like intersections, roundabouts, and traffic.
-
-## Testing
-Automated tests are included to ensure the reliability of the system. Unit tests cover individual components, while integration tests validate the interactions between them.
-
-### Running Tests
-```bash
-pytest tests/
-```
-
-## Contributing
-Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute to this project.
-
-## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
-- Thanks to the open-source community for providing tools and datasets.
-- Special thanks to the contributors who helped in the development of this project.
+---
 
+This **README** provides an overview, installation instructions, usage guidelines, and other key details for your GitHub repository.
